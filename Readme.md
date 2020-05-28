@@ -1,7 +1,7 @@
 # Учебный проект «Код и Магия» [![Build status][travis-image]][travis-url]
 
 * Студент: [Виталий](https://up.htmlacademy.ru/javascript/20/user/495487).
-* Наставник: [Алёна Сиприкова]().
+* Наставник: [Алёна Сиприкова] (https://htmlacademy.ru/profile/asiprikova).
 
 ---
 
