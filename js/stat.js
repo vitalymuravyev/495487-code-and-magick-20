@@ -17,9 +17,9 @@ function renderCloud(ctx2, x, y, color) {
 
 window.renderStatistics = function (ctx, players, results) {
 
-  var playersNumber = players.length;
-  var heightIndex = COLUMN_MAX_HEIGHT / Math.max.apply(null, results);
-  var histogramStartX = CLOUD_START_X + (CLOUD_WIDTH - (playersNumber * COLUMN_WIDTH + (playersNumber - 1) * COLUMN_GAP)) / 2;
+  var PLAYERS_NUMBER = players.length;
+  var HEIGHT_INDEX = COLUMN_MAX_HEIGHT / Math.max.apply(null, results);
+  var HISTOGRAM_START_X = CLOUD_START_X + (CLOUD_WIDTH - (PLAYERS_NUMBER * COLUMN_WIDTH + (PLAYERS_NUMBER - 1) * COLUMN_GAP)) / 2;
 
   renderCloud(ctx, CLOUD_START_X + 10, CLOUD_START_Y + 10, 'rgba(0, 0, 0, 0.7)');
   renderCloud(ctx, CLOUD_START_X, CLOUD_START_Y, '#fff');
@@ -30,27 +30,17 @@ window.renderStatistics = function (ctx, players, results) {
   ctx.fillText('Ура вы победили!', CLOUD_START_X + GAP, CLOUD_START_Y + GAP);
   ctx.fillText('Список результатов:', CLOUD_START_X + GAP, CLOUD_START_Y + GAP * 2);
 
-  for (var i = 0; i < playersNumber; i++) {
-    var x = histogramStartX + (COLUMN_GAP + COLUMN_WIDTH) * i;
+  for (var i = 0; i < PLAYERS_NUMBER; i++) {
+    var x = HISTOGRAM_START_X + (COLUMN_GAP + COLUMN_WIDTH) * i;
 
     ctx.fillStyle = '#000';
     ctx.fillText(players[i], x, CLOUD_START_Y + CLOUD_HEIGHT - GAP);
 
-    // с тернарным оператором все работает, но линтер выдает "Expected an assignment or function call and instead saw an expression"
-    // поэтому пока оставил if
-    // (players[i] === 'Вы') ? ctx.fillStyle = 'rgba(255, 0, 0, 1)' : ctx.fillStyle = 'hsl(240, ' + Math.random() * 100 + '%, 50%';
-
-
-    if (players[i] === 'Вы') {
-      ctx.fillStyle = 'rgba(255, 0, 0, 1)';
-    } else {
-      // ctx.fillStyle = `hsl(240, ${Math.random() * 100}%, 50%)`; Так ведь нельзя сейчас?
-      ctx.fillStyle = 'hsl(240, ' + Math.random() * 100 + '%, 50%';
-    }
-    ctx.fillRect(x, CLOUD_START_Y + CLOUD_HEIGHT - 1.5 * GAP, COLUMN_WIDTH, -(heightIndex * results[i]));
+    ctx.fillStyle = (players[i] === 'Вы') ? 'rgba(255, 0, 0, 1)' : 'hsl(240, ' + Math.random() * 100 + '%, 50%)';
+    ctx.fillRect(x, CLOUD_START_Y + CLOUD_HEIGHT - 1.5 * GAP, COLUMN_WIDTH, -(HEIGHT_INDEX * results[i]));
 
     ctx.fillStyle = '#000';
-    ctx.fillText(Math.round(results[i]), x, CLOUD_START_Y + CLOUD_HEIGHT - 2.5 * GAP - (heightIndex * results[i]));
+    ctx.fillText(Math.round(results[i]), x, CLOUD_START_Y + CLOUD_HEIGHT - 2.5 * GAP - (HEIGHT_INDEX * results[i]));
   }
 };
 
