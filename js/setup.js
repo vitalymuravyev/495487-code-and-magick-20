@@ -61,7 +61,7 @@ var setupOpenIcon = document.querySelector('.setup-open');
 var setupCloseButton = setupWindow.querySelector('.setup-close');
 
 function onPopupEscPress(evt) {
-  if (evt.key === 'Escape') {
+  if (evt.key === 'Escape' && !(document.activeElement.classList.contains('setup-user-name'))) {
     evt.preventDefault();
     closePopup();
   }
@@ -82,7 +82,7 @@ function closePopup() {
 function changeColor(item, itemInput, colors) {
   var newColor = renderValue(colors);
   itemInput.value = newColor;
-  if (item.className === 'setup-fireball-wrap') {
+  if (item.classList.contains('setup-fireball-wrap')) {
     item.style.background = newColor;
   } else {
     item.style.fill = newColor;
