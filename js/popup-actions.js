@@ -2,8 +2,11 @@
 
 (function () {
   var setupWindow = document.querySelector('.setup');
+  var basisPopupX = setupWindow.style.left;
+  var basisPopupY = setupWindow.style.top;
   var setupOpenIcon = document.querySelector('.setup-open');
   var setupCloseButton = setupWindow.querySelector('.setup-close');
+  var popupHandle = setupWindow.querySelector('.upload');
   var fireball = document.querySelector('.setup-fireball-wrap');
   var fireballColorField = document.querySelector('input[name=fireball-color]');
   var coat = document.querySelector('.wizard-coat');
@@ -26,8 +29,13 @@
 
   function closePopup() {
     setupWindow.classList.add('hidden');
-
+    setupWindow.style.left = basisPopupX;
+    setupWindow.style.top = basisPopupY;
     document.removeEventListener('keydown', onPopupEscPress);
+  }
+
+  function removeClick(clickEvt) {
+    clickEvt.preventDefault();
   }
 
   setupOpenIcon.addEventListener('click', openPopup);
@@ -59,6 +67,49 @@
 
   eyes.addEventListener('click', function () {
     window.changeColor(eyes, eyesColorField, window.utils.EYES_COLORS);
+  });
+
+  popupHandle.addEventListener('mousedown', function (evt) {
+    evt.preventDefault();
+    var startCoordinats = {
+      x: evt.clientX,
+      y: evt.clientY,
+    };
+
+    var dragged = false;
+
+    function onMoouseMove(moveEvt) {
+      moveEvt.preventDefault();
+
+      dragged = true;
+
+      var shift = {
+        x: startCoordinats.x - moveEvt.clientX,
+        y: startCoordinats.y - moveEvt.clientY,
+      };
+
+      startCoordinats = {
+        x: moveEvt.clientX,
+        y: moveEvt.clientY,
+      };
+
+      setupWindow.style.left = (setupWindow.offsetLeft - shift.x) + 'px';
+      setupWindow.style.top = (setupWindow.offsetTop - shift.y) + 'px';
+    }
+
+    function onMouseUp(upEvt) {
+      upEvt.preventDefault();
+
+      if (dragged) {
+        popupHandle.addEventListener('click', removeClick);
+      }
+
+      document.removeEventListener('mousemove', onMoouseMove);
+      document.removeEventListener('mouseup', onMouseUp);
+    }
+
+    document.addEventListener('mousemove', onMoouseMove);
+    document.addEventListener('mouseup', onMouseUp);
   });
 
 })();
