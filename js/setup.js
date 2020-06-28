@@ -26,14 +26,19 @@
 
     return wizardElement;
   }
-  var fragment = document.createDocumentFragment();
 
-  for (var j = 0; j < window.utils.NUMBER_OF_WIZARDS; j++) {
-    fragment.appendChild(renderWizard(wizardsList[j]));
+  function onSuccess(wizards) {
+    var fragment = document.createDocumentFragment();
+
+    for (var j = 0; j < window.utils.NUMBER_OF_WIZARDS; j++) {
+      fragment.appendChild(renderWizard(window.utils.renderValue(wizards)));
+    }
+    var similarWizardList = document.querySelector('.setup-similar-list');
+    similarWizardList.appendChild(fragment);
+
+    var setupSimilar = document.querySelector('.setup-similar');
+    setupSimilar.classList.remove('hidden');
   }
-  var similarWizardList = document.querySelector('.setup-similar-list');
-  similarWizardList.appendChild(fragment);
 
-  var setupSimilar = document.querySelector('.setup-similar');
-  setupSimilar.classList.remove('hidden');
+  window.backend.load(onSuccess, window.utils.onError);
 })();
