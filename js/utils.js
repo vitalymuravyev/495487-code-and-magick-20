@@ -14,5 +14,19 @@
     renderValue: function (arr) {
       return arr[window.utils.rndNum(0, arr.length)];
     },
+
+    onError: function (errorMessage) {
+      var errorWindow = document.createElement('div');
+      errorWindow.style.position = 'absolute';
+      errorWindow.style.top = 100;
+      errorWindow.style.left = 100;
+
+      errorWindow.style = 'z-index: 100; text-align: center; background-color: brown';
+
+      errorWindow.style.fontSize = '20px';
+
+      errorWindow.textContent = errorMessage;
+      document.body.insertAdjacentElement('afterbegin', errorWindow);
+    },
   };
 })();

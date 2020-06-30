@@ -13,6 +13,7 @@
   var coatColorField = document.querySelector('input[name=coat-color]');
   var eyes = document.querySelector('.wizard-eyes');
   var eyesColorField = document.querySelector('input[name=eyes-color]');
+  var form = setupWindow.querySelector('.setup-wizard-form');
 
   function onPopupEscPress(evt) {
     if (evt.key === 'Escape' && !(document.activeElement.classList.contains('setup-user-name'))) {
@@ -36,6 +37,10 @@
 
   function removeClick(clickEvt) {
     clickEvt.preventDefault();
+  }
+
+  function onSuccess() {
+    setupWindow.classList.add('hidden');
   }
 
   setupOpenIcon.addEventListener('click', openPopup);
@@ -110,6 +115,11 @@
 
     document.addEventListener('mousemove', onMoouseMove);
     document.addEventListener('mouseup', onMouseUp);
+  });
+
+  form.addEventListener('submit', function (evt) {
+    window.backend.save(new FormData(form), onSuccess, window.utils.onError);
+    evt.preventDefault();
   });
 
 })();
